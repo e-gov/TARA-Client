@@ -26,11 +26,16 @@ import ee.ria.tara.mid.utils.Properties;
 import ee.ria.tara.mid.utils.TlsSupport;
 
 public final class Main {
+/*
++37200000766
 
+11412090004
+
+* */
 	public static void main(String... a) throws Exception {
 		Properties.setApplicationId("openIdDemo");
 		Properties.setApplicationSecret("secret");
-		Properties.setServiceProviderUrl("http://localhost:8080/oidc");
+		Properties.setServiceProviderUrl("https://sso-fe1.arendus.kit/oidc");
 		Properties.setApplicationUrl("https://localhost:8451/oauth/response");
 
 		Server server = new Server();

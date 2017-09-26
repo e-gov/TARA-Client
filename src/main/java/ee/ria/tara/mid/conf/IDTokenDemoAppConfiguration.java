@@ -14,4 +14,5 @@ class IDTokenDemoAppConfiguration {
 		return new EndpointDiscovery();
 	}
 
+
 }

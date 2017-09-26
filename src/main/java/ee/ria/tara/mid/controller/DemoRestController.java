@@ -31,7 +31,6 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 
 import ee.ria.tara.mid.EndpointDiscovery;
-import ee.ria.tara.mid.controller.response.TokenAccessProfileResponse;
 import ee.ria.tara.mid.controller.response.TokenEndpointResponse;
 import ee.ria.tara.mid.utils.Properties;
 import ee.ria.tara.mid.utils.Utils;
@@ -73,22 +72,15 @@ class DemoRestController {
 
 		TokenEndpointResponse tokenResponse = requestTokenEndpoint(code);
 		verifyTokens(tokenResponse);
-		TokenAccessProfileResponse introspectionResponse =
-				requestTokenIntrospection(tokenResponse.getAccessToken());
 
 		String tokenResponseString = mapper.writeValueAsString(tokenResponse);
-		String accessProfileResponseString = mapper.writeValueAsString(introspectionResponse);
 
 		httpResponse.setContentType("text/html");
 		PrintWriter out = httpResponse.getWriter();
 		out.print("--------TokenResponse--------------");
 		out.print("<br>");
 		out.print(tokenResponseString);
-		out.print("<br>");
-		out.print("<br>");
-		out.print("--------AccessProfileResponse--------------");
-		out.print("<br>");
-		out.print(accessProfileResponseString);
+
 		out.flush();
 
 	}
@@ -157,27 +149,6 @@ class DemoRestController {
 				.equals(atHash)) {
 			throw new RuntimeException("Invalid access token");
 		}
-	}
-
-	private TokenAccessProfileResponse requestTokenIntrospection(
-			String accessToken) throws Exception {
-		URL url = new URL(
-				this.endpointDiscovery.getResponse().getIntrospectionEndpoint() + "?access_token="
-						+ accessToken
-		);
-		HttpURLConnection connection = Utils.createConnection(url);
-		connection.setRequestMethod(HttpMethod.GET.name());
-		int responseCode = connection.getResponseCode();
-		if (responseCode != HttpStatus.OK.value()) {
-			throw new RuntimeException(
-					"Received unexpected HTTP response: " + responseCode
-			);
-		}
-
-		return JSON.readValue(
-				connection.getInputStream(),
-				TokenAccessProfileResponse.class
-		);
 	}
 
 	private static String createHttpBasicAuthorizationHeader() {
