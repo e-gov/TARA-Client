@@ -13,5 +13,11 @@ Rakenduse käivitamine:
 		#ApplicationUrl - callBack URL rakendusse. Ehk kuhu suunab server päringu peale autentimist. 
 		* Properties.setApplicationUrl("https://localhost:8451/oauth/response");
 		
+* Peale rakenduse avamist avada interneti lehitsejas URL: https://localhost:8451/ui		
+Selle peale avaneb rakenduse esileht, kus on väikses kirjas LOGIN. Sellele klikates suunatakse 
+kasutaja TARA autentimisrakendusse, kus juba valitud autentimismeetodiga toimub kasutaja 
+autentimine. Peale edukat autentimist suunatakse kasutaja tagasi rakendusse (vt 
+DemoRestController klassi ning ApplicationUrl parameetrit main klassis)
+		
 * Autentimise järgselt suunatakse kasutaja tagasi algsesse rakendusse ja autentimist valideerivasse endpointi (applicationUrl). Seal on juba arendaja otsus, mis ja kuidas ta rakenduse
 spetsiifiliselt loob sessiooni.
