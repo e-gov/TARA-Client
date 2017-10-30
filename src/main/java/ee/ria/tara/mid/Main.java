@@ -17,6 +17,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.StringUtils;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
@@ -26,17 +27,18 @@ import ee.ria.tara.mid.utils.Properties;
 import ee.ria.tara.mid.utils.TlsSupport;
 
 public final class Main {
-/*
-+37200000766
 
-11412090004
-
-* */
+	private final static Integer port = 8451;
+	private final static Integer providerPort = 8080;
+	/*
+	+37200000766
+	11412090004
+	*/
 	public static void main(String... a) throws Exception {
-		Properties.setApplicationId("openIdDemo");
-		Properties.setApplicationSecret("secret");
-		Properties.setServiceProviderUrl("https://sso-fe1.arendus.kit/oidc");
-		Properties.setApplicationUrl("https://localhost:8451/oauth/response");
+		Properties.setApplicationId(Main.getApplicationId());
+		Properties.setApplicationSecret(Main.getApplicationSecret());
+		Properties.setServiceProviderUrl(Main.getServiceProviderUrl());
+		Properties.setApplicationUrl(Main.getApplicationUrl());
 
 		Server server = new Server();
 		createHttpsConnector(server);
@@ -60,7 +62,7 @@ public final class Main {
 
 		ServerConnector connector = new ServerConnector(server, cf);
 		connector.setName("Https");
-		connector.setPort(8451);
+		connector.setPort(Main.getPort());
 		connector.setHost("0.0.0.0");
 		server.addConnector(connector);
 	}
@@ -94,6 +96,62 @@ public final class Main {
 				new AnnotationConfigWebApplicationContext();
 		context.setConfigLocation("ee.ria.tara.mid");
 		return context;
+	}
+
+	private static Integer getPort() {
+		String port = System.getProperty("server.port");
+		try {
+			return Integer.parseInt(port);
+		} catch (NumberFormatException e) {
+			return Main.port;
+		}
+	}
+
+	private static Integer getProviderPort() {
+		String port = System.getProperty("provider.port");
+		try {
+			return Integer.parseInt(port);
+		} catch (NumberFormatException e) {
+			return Main.providerPort;
+		}
+	}
+
+	private static String getApplicationId() {
+		String id = System.getProperty("application.id");
+		return (StringUtils.isEmpty(id)) ? "openIdDemo" : id;
+	}
+
+	private static String getApplicationSecret() {
+		String secret = System.getProperty("application.secret");
+		return (StringUtils.isEmpty(secret)) ? "secret" : secret;
+	}
+
+	private static String getApplicationUrl() {
+		StringBuilder sb = new StringBuilder("https://");
+		String domain = System.getProperty("server.domain");
+		if (StringUtils.isEmpty(domain)) {
+			sb.append("localhost");
+		} else {
+			sb.append(domain);
+		}
+		sb.append(":");
+		sb.append(Main.getPort());
+		sb.append("/oauth/response");
+		return sb.toString();
+	}
+
+	private static String getServiceProviderUrl() {
+		StringBuilder sb = new StringBuilder("https://");
+		String domain = System.getProperty("provider.domain");
+		if (StringUtils.isEmpty(domain)) {
+			sb.append("localhost");
+		} else {
+			sb.append(domain);
+		}
+		sb.append(":");
+		sb.append(Main.getProviderPort());
+		sb.append("/oidc");
+		return sb.toString();
 	}
 
 }
