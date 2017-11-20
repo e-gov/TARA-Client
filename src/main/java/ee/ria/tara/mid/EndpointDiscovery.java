@@ -30,7 +30,7 @@ public class EndpointDiscovery {
             "%s/.well-known/openid-configuration",
             Properties.getServiceProviderUrl()
         );
-
+        System.out.println(String.format("Requesting <%s>", discoveryEndpointUrl));
         HttpURLConnection connection = Utils.createConnection(
             new URL(discoveryEndpointUrl)
         );

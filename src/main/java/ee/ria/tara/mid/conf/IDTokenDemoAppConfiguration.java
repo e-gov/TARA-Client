@@ -9,10 +9,10 @@ import ee.ria.tara.mid.EndpointDiscovery;
 @Configuration
 @EnableWebMvc
 class IDTokenDemoAppConfiguration {
+
 	@Bean
 	EndpointDiscovery endpointDiscoveryTest() throws Exception {
 		return new EndpointDiscovery();
 	}
-
 
 }

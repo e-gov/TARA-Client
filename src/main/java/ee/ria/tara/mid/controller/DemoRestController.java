@@ -49,7 +49,6 @@ class DemoRestController {
     @RequestMapping(method = GET, value = "/request")
     void request(HttpServletResponse response) throws IOException {
         String state = "abcdefghijklmnop";
-
         String authorizationRequest = String.format(
                 "%s?scope=%s&response_type=%s&client_id=%s&redirect_uri=%s&state=%s"
                         + "&nonce=%s",
@@ -61,10 +60,9 @@ class DemoRestController {
                 state,
                 "qrstuvwxyzabcdef"
         );
-
         Cookie cookie = new Cookie("TARAClient", state);
         response.addCookie(cookie);
-
+        System.out.println(authorizationRequest);
         response.sendRedirect(authorizationRequest);
     }
 
@@ -76,22 +74,16 @@ class DemoRestController {
         if (error != null) {
             throw new RuntimeException("Authentication failed");
         }
-
         ObjectMapper mapper = new ObjectMapper();
-
         TokenEndpointResponse tokenResponse = requestTokenEndpoint(code);
         verifyTokens(tokenResponse, httpRequest);
-
         String tokenResponseString = mapper.writeValueAsString(tokenResponse);
-
         httpResponse.setContentType("text/html");
         PrintWriter out = httpResponse.getWriter();
         out.print("--------TokenResponse--------------");
         out.print("<br>");
         out.print(tokenResponseString);
-
         out.flush();
-
     }
 
     private TokenEndpointResponse requestTokenEndpoint(String code)
@@ -109,7 +101,6 @@ class DemoRestController {
         connection.setRequestProperty(
                 HttpHeaders.AUTHORIZATION, createHttpBasicAuthorizationHeader()
         );
-
         try (DataOutputStream wr =
                      new DataOutputStream(connection.getOutputStream())) {
             wr.writeBytes(String.format(
@@ -125,7 +116,6 @@ class DemoRestController {
                     "Received unexpected HTTP response: " + responseCode
             );
         }
-
         return JSON.readValue(
                 connection.getInputStream(), TokenEndpointResponse.class
         );
@@ -140,10 +130,8 @@ class DemoRestController {
         if (!signedJWT.verify(verifier)) {
             throw new RuntimeException("Invalid signature of ID Token");
         }
-
         JWTClaimsSet claimSet = signedJWT.getJWTClaimsSet();
-
-
+        System.out.println("JWT (claims): " + claimSet);
         boolean cookieFound = false;
         for (Cookie cookie : httpRequest.getCookies()) {
             if (cookie.getName().equals("TARAClient")
@@ -154,7 +142,6 @@ class DemoRestController {
         if (!cookieFound) {
             throw new RuntimeException("Invalid state");
         }
-
         if (!claimSet.getIssuer()
                      .equals(this.endpointDiscovery.getResponse().getIssuer())) {
             throw new RuntimeException("Invalid issuer");
@@ -165,7 +152,6 @@ class DemoRestController {
         if (claimSet.getExpirationTime().before(new Date())) {
             throw new RuntimeException("ID Token has expired");
         }
-
         String atHash = claimSet.getStringClaim("at_hash");
         if (!Utils.calculateAtHash(tokenResponse.getAccessToken())
                   .equals(atHash)) {

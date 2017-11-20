@@ -40,4 +40,15 @@ public class Properties {
 	public static void setApplicationUrl(String applicationUrl) {
 		Properties.applicationUrl = applicationUrl;
 	}
+
+	public static void print() {
+		final StringBuffer sb = new StringBuffer("Properties{");
+		sb.append("applicationId='").append(applicationId).append('\'');
+		sb.append(", applicationSecret='").append(applicationSecret).append('\'');
+		sb.append(", serviceProviderUrl='").append(serviceProviderUrl).append('\'');
+		sb.append(", applicationUrl='").append(applicationUrl).append('\'');
+		sb.append('}');
+		System.out.println(sb.toString());
+	}
+
 }

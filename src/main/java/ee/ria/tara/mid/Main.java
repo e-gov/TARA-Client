@@ -28,8 +28,13 @@ import ee.ria.tara.mid.utils.TlsSupport;
 
 public final class Main {
 
+	private enum Protocol {
+		HTTP, HTTPS
+	}
+
 	private final static Integer port = 8451;
-	private final static Integer providerPort = 8080;
+	private final static Integer providerPort = 8450;
+	private final static Protocol providerProtocol = Protocol.HTTP;
 	/*
 	+37200000766
 	11412090004
@@ -39,7 +44,7 @@ public final class Main {
 		Properties.setApplicationSecret(Main.getApplicationSecret());
 		Properties.setServiceProviderUrl(Main.getServiceProviderUrl());
 		Properties.setApplicationUrl(Main.getApplicationUrl());
-
+		Properties.print();
 		Server server = new Server();
 		createHttpsConnector(server);
 		server.setHandler(getServletContextHandler(getContext()));
@@ -51,7 +56,6 @@ public final class Main {
 		SslContextFactory cf = new SslContextFactory(false);
 		cf.setWantClientAuth(true);
 		cf.setSessionCachingEnabled(true);
-
 		SSLContext ctx = SSLContext.getInstance("TLSv1.2");
 		ctx.init(
 				new KeyManager[] { TlsSupport.getKeyManager() },
@@ -59,9 +63,8 @@ public final class Main {
 				new SecureRandom()
 		);
 		cf.setSslContext(ctx);
-
 		ServerConnector connector = new ServerConnector(server, cf);
-		connector.setName("Https");
+		connector.setName("HTTPS");
 		connector.setPort(Main.getPort());
 		connector.setHost("0.0.0.0");
 		server.addConnector(connector);
@@ -141,7 +144,9 @@ public final class Main {
 	}
 
 	private static String getServiceProviderUrl() {
-		StringBuilder sb = new StringBuilder("https://");
+		StringBuilder sb = new StringBuilder();
+		sb.append(Main.getServiceProviderProtocol());
+		sb.append("://");
 		String domain = System.getProperty("provider.domain");
 		if (StringUtils.isEmpty(domain)) {
 			sb.append("localhost");
@@ -152,6 +157,15 @@ public final class Main {
 		sb.append(Main.getProviderPort());
 		sb.append("/oidc");
 		return sb.toString();
+	}
+
+	private static String getServiceProviderProtocol() {
+		String protocol = System.getProperty("provider.protocol");
+		try {
+			return Protocol.valueOf(protocol.toUpperCase()).name().toLowerCase();
+		} catch (Exception e) {
+			return Main.providerProtocol.name().toLowerCase();
+		}
 	}
 
 }
