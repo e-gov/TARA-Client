@@ -41,6 +41,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 @RestController
 @RequestMapping("/oauth")
 class DemoRestController {
+
     private static final ObjectMapper JSON = new ObjectMapper();
 
     @Autowired
@@ -170,4 +171,5 @@ class DemoRestController {
                 )
         );
     }
+
 }

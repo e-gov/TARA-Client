@@ -30,7 +30,7 @@ public class EndpointDiscovery {
             "%s/.well-known/openid-configuration",
             Properties.getServiceProviderUrl()
         );
-        System.out.println(String.format("Requesting <%s>", discoveryEndpointUrl));
+        System.out.println(String.format("Requesting discovery endpoint <%s>", discoveryEndpointUrl));
         HttpURLConnection connection = Utils.createConnection(
             new URL(discoveryEndpointUrl)
         );
@@ -48,6 +48,7 @@ public class EndpointDiscovery {
     }
 
     private void requestJwksEndpoint() throws Exception {
+        System.out.println(String.format("Requesting JWKS endpoint <%s>", this.response.getJwksUri()));
         HttpURLConnection connection = Utils.createConnection(
             new URL(this.response.getJwksUri())
         );

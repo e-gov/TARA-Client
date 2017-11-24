@@ -16,7 +16,10 @@ import javax.net.ssl.X509ExtendedKeyManager;
 import javax.net.ssl.X509TrustManager;
 import javax.xml.bind.DatatypeConverter;
 
+import org.springframework.util.Assert;
+
 public class TlsSupport {
+
     private static final String KEY = "/test-tls-key.pem";
     private static final String CERT = "/test-tls-cert.pem";
 
@@ -32,8 +35,10 @@ public class TlsSupport {
     }
 
     public static X509ExtendedKeyManager getKeyManager() throws Exception {
-        try (InputStream k = ClassLoader.class.getResourceAsStream(KEY);
-                InputStream c = ClassLoader.class.getResourceAsStream(CERT)) {
+        try (InputStream k = TlsSupport.class.getResourceAsStream(KEY);
+                InputStream c = TlsSupport.class.getResourceAsStream(CERT)) {
+            Assert.notNull(k, "Key data stream is null");
+            Assert.notNull(c, "Certificate data stream is null");
             return new TlsKeyManager(readPrivateKey(k), readCertificate(c));
         }
     }

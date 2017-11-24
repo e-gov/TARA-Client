@@ -102,7 +102,7 @@ public final class Main {
 	}
 
 	private static Integer getPort() {
-		String port = System.getProperty("server.port");
+		String port = System.getProperty("client.port");
 		try {
 			return Integer.parseInt(port);
 		} catch (NumberFormatException e) {
@@ -120,18 +120,18 @@ public final class Main {
 	}
 
 	private static String getApplicationId() {
-		String id = System.getProperty("application.id");
+		String id = System.getProperty("client.id");
 		return (StringUtils.isEmpty(id)) ? "openIdDemo" : id;
 	}
 
 	private static String getApplicationSecret() {
-		String secret = System.getProperty("application.secret");
+		String secret = System.getProperty("client.secret");
 		return (StringUtils.isEmpty(secret)) ? "secret" : secret;
 	}
 
 	private static String getApplicationUrl() {
 		StringBuilder sb = new StringBuilder("https://");
-		String domain = System.getProperty("server.domain");
+		String domain = System.getProperty("client.domain");
 		if (StringUtils.isEmpty(domain)) {
 			sb.append("localhost");
 		} else {
