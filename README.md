@@ -18,7 +18,7 @@ Rakendust on võimalik konfigureerida järgmiste parameetritega:
 #### Rakenduse käivitamine
 
 ```
-mvn clean compile exec:java (-Dclient.*=* -Dprovider.*=*)
+mvn clean compile exec:java <-Dclient.*=*> <-Dprovider.*=*>
 ```
 
 #### Edasine juhis
