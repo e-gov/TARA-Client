@@ -20,6 +20,10 @@ Rakendust on võimalik konfigureerida järgmiste parameetritega:
 ```
 mvn clean compile exec:java <-Dclient.*=*> <-Dprovider.*=*>
 ```
+Testteenuse vastu konfigureeritud näide: 
+```
+mvn clean compile exec:java -Dprovider.protocol=https -Dprovider.domain=tara-test.ria.ee -Dprovider.port=443
+```
 
 #### Edasine juhis
 * Peale rakenduse käivitamist avada interneti lehitsejas URL: https://localhost:8451/ui
