@@ -42,8 +42,9 @@ public final class Main {
 	public static void main(String... a) throws Exception {
 		Properties.setApplicationId(Main.getApplicationId());
 		Properties.setApplicationSecret(Main.getApplicationSecret());
-		Properties.setServiceProviderUrl(Main.getServiceProviderUrl());
 		Properties.setApplicationUrl(Main.getApplicationUrl());
+		Properties.setApplicationLocale(Main.getApplicationLocale());
+		Properties.setServiceProviderUrl(Main.getServiceProviderUrl());
 		Properties.print();
 		Server server = new Server();
 		createHttpsConnector(server);
@@ -141,6 +142,11 @@ public final class Main {
 		sb.append(Main.getPort());
 		sb.append("/oauth/response");
 		return sb.toString();
+	}
+
+	private static String getApplicationLocale() {
+		String locale = System.getProperty("client.locale");
+		return (StringUtils.isEmpty(locale)) ? "et" : locale;
 	}
 
 	private static String getServiceProviderUrl() {

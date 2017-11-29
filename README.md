@@ -14,6 +14,7 @@ Rakendust on võimalik konfigureerida järgmiste parameetritega:
 - `client.domain` - vaikimisi `localhost`
 - `client.id` - vaikimisi `openIdDemo`
 - `client.secret` - vaikimisi `secret`
+- `client.locale` - vaikimisi `et`
 
 #### Rakenduse käivitamine
 
