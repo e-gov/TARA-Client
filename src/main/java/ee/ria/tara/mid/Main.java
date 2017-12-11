@@ -35,10 +35,7 @@ public final class Main {
 	private final static Integer port = 8451;
 	private final static Integer providerPort = 8450;
 	private final static Protocol providerProtocol = Protocol.HTTP;
-	/*
-	+37200000766
-	11412090004
-	*/
+
 	public static void main(String... a) throws Exception {
 		Properties.setApplicationId(Main.getApplicationId());
 		Properties.setApplicationSecret(Main.getApplicationSecret());

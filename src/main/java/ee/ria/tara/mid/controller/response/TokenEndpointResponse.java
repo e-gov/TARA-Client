@@ -2,7 +2,8 @@ package ee.ria.tara.mid.controller.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class TokenEndpointResponse {
+public class TokenEndpointResponse implements TokenResponse {
+
     @JsonProperty("access_token")
     private String accessToken;
 
@@ -18,7 +19,9 @@ public class TokenEndpointResponse {
     @JsonProperty("expires_in")
     private String expiresIn;
 
-    private String error;
+    /*
+     * ACCESSORS
+     */
 
     public String getRefreshToken() {
         return refreshToken;
@@ -52,14 +55,6 @@ public class TokenEndpointResponse {
         this.tokenType = tokenType;
     }
 
-    public String getError() {
-        return this.error;
-    }
-
-    public void setError(String error) {
-        this.error = error;
-    }
-
     public String getExpiresIn() {
         return expiresIn;
     }
@@ -67,4 +62,5 @@ public class TokenEndpointResponse {
     public void setExpiresIn(String expiresIn) {
         this.expiresIn = expiresIn;
     }
+
 }
