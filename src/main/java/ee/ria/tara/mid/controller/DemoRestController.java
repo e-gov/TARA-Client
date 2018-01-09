@@ -21,7 +21,6 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -60,17 +59,21 @@ class DemoRestController {
             state, "qrstuvwxyzabcdef", Properties.getApplicationLocale());
         Cookie cookie = new Cookie("TARAClient", state);
         response.addCookie(cookie);
-        System.out.println(authorizationRequest);
+        System.out.println(String.format("Authorization forwarded to <%s>", authorizationRequest));
         response.sendRedirect(authorizationRequest);
     }
 
     @RequestMapping(method = GET, value = "/response")
     void response(@RequestParam(required = false) String code,
                   @RequestParam(required = false) String error,
+                  @RequestParam(name = "error_description", required = false) String errorDescription,
                   HttpServletResponse httpResponse,
                   HttpServletRequest httpRequest) throws Exception {
         if (error != null) {
-            throw new RuntimeException("Authentication failed");
+            PrintWriter out = httpResponse.getWriter();
+            out.println(String.format("RESPONSE ERROR: %s - %s", error, errorDescription));
+            out.flush();
+            return;
         }
         TokenResponse response = this.requestTokenEndpoint(code);
         if (!response.isInvalid()) {
