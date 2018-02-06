@@ -1,4 +1,7 @@
+<img src='doc/img/ee_cef_0.png'></img>
+
 # TARA-Client
+
 TARA autentimisteenuse näidis klient
 
 #### Rakenduse konfigureerimine
