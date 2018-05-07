@@ -52,7 +52,7 @@ public final class Main {
 
 	private static void createHttpsConnector(Server server) throws Exception {
 		SslContextFactory cf = new SslContextFactory(false);
-		cf.setWantClientAuth(true);
+		cf.setWantClientAuth(false);
 		cf.setSessionCachingEnabled(true);
 		SSLContext ctx = SSLContext.getInstance("TLSv1.2");
 		ctx.init(
