@@ -51,11 +51,15 @@ class DemoRestController {
     private EndpointDiscovery endpointDiscovery;
 
     @RequestMapping(method = GET, value = "/request")
-    void request(HttpServletResponse response) throws IOException {
+    void request(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String state = "abcdefghijklmnop";
+
+        String scope = request.getParameter("scope");
+        scope = scope != null ? "openid " + scope : "openid";
+
         String authorizationRequest = String.format("%s?scope=%s&response_type=%s&client_id=%s&redirect_uri=%s&state=%s"
                 + "&nonce=%s&lang=%s", this.endpointDiscovery.getResponse().getAuthorizationEndpoint(),
-            "openid", "code", Properties.getApplicationId(), String.format("%s", Properties.getApplicationUrl()),
+            scope, "code", Properties.getApplicationId(), String.format("%s", Properties.getApplicationUrl()),
             state, "qrstuvwxyzabcdef", Properties.getApplicationLocale());
         Cookie cookie = new Cookie("TARAClient", state);
         response.addCookie(cookie);
