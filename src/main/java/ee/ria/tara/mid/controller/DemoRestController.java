@@ -61,6 +61,10 @@ class DemoRestController {
                 + "&nonce=%s&lang=%s", this.endpointDiscovery.getResponse().getAuthorizationEndpoint(),
             scope, "code", Properties.getApplicationId(), String.format("%s", Properties.getApplicationUrl()),
             state, "qrstuvwxyzabcdef", Properties.getApplicationLocale());
+
+        String acr_values = request.getParameter("acr_values");
+        if (acr_values != null) authorizationRequest += ("&acr_values=" + acr_values);
+
         Cookie cookie = new Cookie("TARAClient", state);
         response.addCookie(cookie);
         System.out.println(String.format("Authorization forwarded to <%s>", authorizationRequest));
