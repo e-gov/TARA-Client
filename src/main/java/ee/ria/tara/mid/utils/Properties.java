@@ -5,7 +5,6 @@ public class Properties {
 	private static String applicationId;
 	private static String applicationSecret;
 	private static String applicationUrl;
-	private static String applicationLocale;
 	private static String serviceProviderUrl;
 
 	private Properties() {
@@ -43,20 +42,11 @@ public class Properties {
 		Properties.applicationUrl = applicationUrl;
 	}
 
-	public static String getApplicationLocale() {
-		return applicationLocale;
-	}
-
-	public static void setApplicationLocale(String applicationLocale) {
-		Properties.applicationLocale = applicationLocale;
-	}
-
 	public static void print() {
 		final StringBuffer sb = new StringBuffer("Properties{");
 		sb.append("applicationId='").append(applicationId).append('\'');
 		sb.append(", applicationSecret='").append(applicationSecret).append('\'');
 		sb.append(", applicationUrl='").append(applicationUrl).append('\'');
-		sb.append(", applicationLocale='").append(applicationLocale).append('\'');
 		sb.append(", serviceProviderUrl='").append(serviceProviderUrl).append('\'');
 		sb.append('}');
 		System.out.println(sb.toString());

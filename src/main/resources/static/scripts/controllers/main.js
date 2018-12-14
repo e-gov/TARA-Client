@@ -15,6 +15,11 @@ app.controller('MainCtrl', function($scope, $rootScope, $q, $window) {
             parameters.push('acr_values=' + encodeURIComponent(acr_values));
         }
 
+        var ui_locales_values = document.getElementById('ui_locales').value;
+        if (ui_locales_values && ui_locales_values.length > 0) {
+            parameters.push('ui_locales=' + encodeURIComponent(ui_locales_values));
+        }
+
         if (parameters.length > 0) request += ('?' + parameters.join('&'));
         $window.location.href = request;
     };

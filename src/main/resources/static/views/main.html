@@ -1,15 +1,33 @@
 <p>Not authenticated</p>
-<a href="javascript:void(0)" ng-click="login()">Login</a>
+
+<p>
+    <a href="javascript:void(0)" ng-click="login()">Login</a>
 </p>
 
-Additional scopes:<br>
-<input type="checkbox" id="eidasonly">eidasonly<br>
+<hr>
+
+<p>
+    scope:
+    <input type="checkbox" id="eidasonly">eidasonly<br>
 </p>
 
-acr_values:<br>
-<select id="acr_values">
-    <option value="">default</option>
-    <option value="low">low</option>
-    <option value="substantial">substantial</option>
-    <option value="high">high</option>
-</select><br>
+<p>
+    acr_values:
+    <select id="acr_values">
+        <option value="">default</option>
+        <option value="low">low</option>
+        <option value="substantial">substantial</option>
+        <option value="high">high</option>
+    </select>
+</p>
+
+<p>
+    ui_locales:
+    <select id="ui_locales">
+        <option value="">no value</option>
+        <option value="en">en</option>
+        <option value="et" selected="selected">et</option>
+        <option value="ru">ru</option>
+        <option value="xyw123">invalid value</option>
+    </select>
+</p>

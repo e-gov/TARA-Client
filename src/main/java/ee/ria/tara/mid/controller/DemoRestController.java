@@ -58,12 +58,15 @@ class DemoRestController {
         scope = scope != null ? "openid " + scope : "openid";
 
         String authorizationRequest = String.format("%s?scope=%s&response_type=%s&client_id=%s&redirect_uri=%s&state=%s"
-                + "&nonce=%s&lang=%s", this.endpointDiscovery.getResponse().getAuthorizationEndpoint(),
+                + "&nonce=%s", this.endpointDiscovery.getResponse().getAuthorizationEndpoint(),
             scope, "code", Properties.getApplicationId(), String.format("%s", Properties.getApplicationUrl()),
-            state, "qrstuvwxyzabcdef", Properties.getApplicationLocale());
+            state, "qrstuvwxyzabcdef");
 
         String acr_values = request.getParameter("acr_values");
         if (acr_values != null) authorizationRequest += ("&acr_values=" + acr_values);
+
+        String ui_locales_values = request.getParameter("ui_locales");
+        if (ui_locales_values != null) authorizationRequest += ("&ui_locales=" + ui_locales_values);
 
         Cookie cookie = new Cookie("TARAClient", state);
         response.addCookie(cookie);
