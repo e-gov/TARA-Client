@@ -12,12 +12,15 @@ import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.util.Base64;
 import java.util.Date;
+import java.util.UUID;
+import java.util.logging.Logger;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
+import org.eclipse.jetty.util.UrlEncoded;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -45,6 +48,8 @@ import ee.ria.tara.mid.utils.Utils;
 @RequestMapping("/oauth")
 class DemoRestController {
 
+    final Logger logger = Logger.getLogger(DemoRestController.class.getName());
+
     private static final ObjectMapper JSON = new ObjectMapper();
 
     @Autowired
@@ -52,15 +57,15 @@ class DemoRestController {
 
     @RequestMapping(method = GET, value = "/request")
     void request(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String state = "abcdefghijklmnop";
-
+        String state = UUID.randomUUID().toString();
+        String nonce = UUID.randomUUID().toString();
         String scope = request.getParameter("scope");
-        scope = scope != null ? "openid " + scope : "openid";
+        scope = scope != null ? scope : "openid";
 
         String authorizationRequest = String.format("%s?scope=%s&response_type=%s&client_id=%s&redirect_uri=%s&state=%s"
                 + "&nonce=%s", this.endpointDiscovery.getResponse().getAuthorizationEndpoint(),
             scope, "code", Properties.getApplicationId(), String.format("%s", Properties.getApplicationUrl()),
-            state, "qrstuvwxyzabcdef");
+            state, nonce);
 
         String acr_values = request.getParameter("acr_values");
         if (acr_values != null) authorizationRequest += ("&acr_values=" + acr_values);
@@ -70,7 +75,7 @@ class DemoRestController {
 
         Cookie cookie = new Cookie("TARAClient", state);
         response.addCookie(cookie);
-        System.out.println(String.format("Authorization forwarded to <%s>", authorizationRequest));
+        logger.info(String.format("Authorization forwarded to <%s>", authorizationRequest));
         response.sendRedirect(authorizationRequest);
     }
 
@@ -80,6 +85,9 @@ class DemoRestController {
                   @RequestParam(name = "error_description", required = false) String errorDescription,
                   HttpServletResponse httpResponse,
                   HttpServletRequest httpRequest) throws Exception {
+
+        logger.info(String.format("Received callback from OP with code <%s>", code));
+
         if (error != null) {
             PrintWriter out = httpResponse.getWriter();
             out.println(String.format("RESPONSE ERROR: %s - %s", error, errorDescription));
@@ -99,7 +107,7 @@ class DemoRestController {
 
     private TokenResponse requestTokenEndpoint(String code) throws Exception {
         URL url = new URL(this.endpointDiscovery.getResponse().getTokenEndpoint());
-        System.out.println(String.format("Requesting token from <%s>", url.toString()));
+        logger.info(String.format("Requesting token from <%s>", url.toString()));
         HttpURLConnection connection = Utils.createConnection(url);
         connection.setRequestMethod(HttpMethod.POST.name());
         connection.setDoOutput(true);
@@ -108,7 +116,7 @@ class DemoRestController {
         try (DataOutputStream wr = new DataOutputStream(connection.getOutputStream())) {
             String data = String.format("grant_type=authorization_code&code=%s&redirect_uri=%s", code,
                 Properties.getApplicationUrl());
-            System.out.println(String.format("Writing the following data <%s>", data));
+            logger.info(String.format("POST body: <%s>", data));
             wr.writeBytes(data);
             wr.flush();
         }
@@ -131,7 +139,7 @@ class DemoRestController {
             throw new RuntimeException("Invalid signature of ID Token");
         }
         JWTClaimsSet claimSet = jwt.getJWTClaimsSet();
-        System.out.println("JWT (claims): " + claimSet);
+        logger.info("JWT (claims): " + claimSet);
         boolean cookieFound = false;
         for (Cookie cookie : httpRequest.getCookies()) {
             if (cookie.getName().equals("TARAClient")
