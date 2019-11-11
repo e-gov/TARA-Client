@@ -62,6 +62,13 @@ class DemoRestController {
         String scope = request.getParameter("scope");
         scope = scope != null ? scope : "openid";
 
+        if (scope.contains("eidasonly")) {
+            String eidasCountry = request.getParameter("eidas_country");
+            if (eidasCountry != null) {
+                scope += " eidas:country:" + eidasCountry;
+            }
+        }
+
         String authorizationRequest = String.format("%s?scope=%s&response_type=%s&client_id=%s&redirect_uri=%s&state=%s"
                 + "&nonce=%s", this.endpointDiscovery.getResponse().getAuthorizationEndpoint(),
             scope, "code", Properties.getApplicationId(), String.format("%s", Properties.getApplicationUrl()),
