@@ -31,6 +31,11 @@ app.controller('MainCtrl', function($scope, $rootScope, $q, $window) {
             parameters.push('ui_locales=' + encodeURIComponent(ui_locales_values));
         }
 
+        var eidas_country_value = document.getElementById('eidas_country').value;
+        if (eidas_country_value && eidas_country_value.length > 0) {
+            parameters.push('eidas_country=' + encodeURIComponent(eidas_country_value));
+        }
+
         if (parameters.length > 0) request += ('?' + parameters.join('&'));
         $window.location.href = request;
     };
