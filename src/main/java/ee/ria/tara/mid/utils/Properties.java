@@ -1,6 +1,10 @@
 package ee.ria.tara.mid.utils;
 
+import java.util.logging.Logger;
+
 public class Properties {
+
+	static final Logger logger = Logger.getLogger(Properties.class.getName());
 
 	private static String applicationId;
 	private static String applicationSecret;
@@ -49,7 +53,7 @@ public class Properties {
 		sb.append(", applicationUrl='").append(applicationUrl).append('\'');
 		sb.append(", serviceProviderUrl='").append(serviceProviderUrl).append('\'');
 		sb.append('}');
-		System.out.println(sb.toString());
+		logger.info(sb.toString());
 	}
 
 }

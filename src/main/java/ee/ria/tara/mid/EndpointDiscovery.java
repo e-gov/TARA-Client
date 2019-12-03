@@ -3,6 +3,8 @@ package ee.ria.tara.mid;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.interfaces.RSAPublicKey;
+import java.util.logging.Logger;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
@@ -15,6 +17,8 @@ import ee.ria.tara.mid.utils.Utils;
 import ee.ria.tara.mid.controller.response.EndpointDiscoveryResponse;
 
 public class EndpointDiscovery {
+
+    final Logger logger = Logger.getLogger(EndpointDiscovery.class.getName());
     private static final ObjectMapper JSON = new ObjectMapper();
 
     private EndpointDiscoveryResponse response;
@@ -30,7 +34,7 @@ public class EndpointDiscovery {
             "%s/.well-known/openid-configuration",
             Properties.getServiceProviderUrl()
         );
-        System.out.println(String.format("Requesting discovery endpoint <%s>", discoveryEndpointUrl));
+        logger.info(String.format("Requesting discovery endpoint <%s>", discoveryEndpointUrl));
         HttpURLConnection connection = Utils.createConnection(
             new URL(discoveryEndpointUrl)
         );
@@ -48,7 +52,7 @@ public class EndpointDiscovery {
     }
 
     private void requestJwksEndpoint() throws Exception {
-        System.out.println(String.format("Requesting JWKS endpoint <%s>", this.response.getJwksUri()));
+        logger.info(String.format("Requesting JWKS endpoint <%s>", this.response.getJwksUri()));
         HttpURLConnection connection = Utils.createConnection(
             new URL(this.response.getJwksUri())
         );
