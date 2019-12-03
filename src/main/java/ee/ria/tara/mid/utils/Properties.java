@@ -10,6 +10,7 @@ public class Properties {
 	private static String applicationSecret;
 	private static String applicationUrl;
 	private static String serviceProviderUrl;
+	private static String openIdDiscoveryEndpoint;
 
 	private Properties() {
 	}
@@ -52,8 +53,16 @@ public class Properties {
 		sb.append(", applicationSecret='").append(applicationSecret).append('\'');
 		sb.append(", applicationUrl='").append(applicationUrl).append('\'');
 		sb.append(", serviceProviderUrl='").append(serviceProviderUrl).append('\'');
+		sb.append(", openIdDiscoveryEndpoint='").append(openIdDiscoveryEndpoint).append('\'');
 		sb.append('}');
 		logger.info(sb.toString());
 	}
 
+	public static void setOpenIdDiscoveryEndpoint(String oidcDiscoveryEndpoint) {
+		Properties.openIdDiscoveryEndpoint = oidcDiscoveryEndpoint ;
+	}
+
+	public static String getOpenIdDiscoveryEndpoint() {
+		return openIdDiscoveryEndpoint;
+	}
 }

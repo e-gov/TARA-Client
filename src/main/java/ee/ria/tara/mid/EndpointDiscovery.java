@@ -31,8 +31,8 @@ public class EndpointDiscovery {
 
     private void requestDiscoveryEndpoint() throws Exception {
         String discoveryEndpointUrl = String.format(
-            "%s/.well-known/openid-configuration",
-            Properties.getServiceProviderUrl()
+            "%s/%s",
+            Properties.getServiceProviderUrl(), Properties.getOpenIdDiscoveryEndpoint()
         );
         logger.info(String.format("Requesting discovery endpoint <%s>", discoveryEndpointUrl));
         HttpURLConnection connection = Utils.createConnection(

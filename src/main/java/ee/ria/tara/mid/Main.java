@@ -41,6 +41,7 @@ public final class Main {
 		Properties.setApplicationSecret(Main.getApplicationSecret());
 		Properties.setApplicationUrl(Main.getApplicationUrl());
 		Properties.setServiceProviderUrl(Main.getServiceProviderUrl());
+		Properties.setOpenIdDiscoveryEndpoint(Main.getOidcDiscoveryEndpoint());
 		Properties.print();
 		Server server = new Server();
 		createHttpsConnector(server);
@@ -152,8 +153,12 @@ public final class Main {
 		}
 		sb.append(":");
 		sb.append(Main.getProviderPort());
-		sb.append("/oidc");
 		return sb.toString();
+	}
+
+	private static String getOidcDiscoveryEndpoint() {
+		String path = System.getProperty("provider.discovery.endpoint");
+		return (StringUtils.isEmpty(path)) ? "oidc/.well-known/openid-configuration" : path;
 	}
 
 	private static String getServiceProviderProtocol() {
