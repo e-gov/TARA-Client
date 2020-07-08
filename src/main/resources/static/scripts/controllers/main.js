@@ -17,7 +17,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $q, $window) {
         if (document.getElementById('smartid').checked) selectedScopes.push('smartid');
         if (document.getElementById('eidasonly').checked) selectedScopes.push('eidasonly');
         if (document.getElementById('email').checked) selectedScopes.push('email');
-        if (document.getElementById('phonenumber').checked) selectedScopes.push('phonenumber');
+        if (document.getElementById('phone').checked) selectedScopes.push('phone');
 
         parameters.push('scope=' + selectedScopes.join(' '));
 
