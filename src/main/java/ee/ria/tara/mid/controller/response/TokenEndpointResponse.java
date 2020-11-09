@@ -7,6 +7,9 @@ public class TokenEndpointResponse implements TokenResponse {
     @JsonProperty("access_token")
     private String accessToken;
 
+    @JsonProperty("scope")
+    private String scope;
+
     @JsonProperty("id_token")
     private String idToken;
 
