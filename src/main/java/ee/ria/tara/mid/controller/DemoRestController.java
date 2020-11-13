@@ -167,9 +167,18 @@ class DemoRestController {
             throw new RuntimeException("ID Token has expired");
         }
         String atHash = claimSet.getStringClaim("at_hash");
-        if (!Utils.calculateAtHash(tokenResponse.getAccessToken()).equals(atHash)) {
+        if (atHash != null && !isValidAccesstokenHash(tokenResponse.getAccessToken(), atHash)) {
             throw new RuntimeException("Invalid access token");
         }
+    }
+
+    private boolean isValidAccesstokenHash(String accessToken, String atHash) {
+        return Utils.calculateAtHash(accessToken).equals(toBase64UrlEncodedStringWithoutPadding(atHash));
+    }
+
+    private String toBase64UrlEncodedStringWithoutPadding(String text) {
+        return text.replaceAll("\\+", "-")
+                .replaceAll("/", "_").replaceAll("=", "");
     }
 
     private static String createHttpBasicAuthorizationHeader() {

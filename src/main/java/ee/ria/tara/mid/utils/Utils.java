@@ -39,7 +39,7 @@ public final class Utils {
 
 	public static String calculateAtHash(String accessToken) {
 		byte[] hashBytes = DigestUtils.sha256(accessToken.getBytes(UTF_8));
-		byte[] leftHalf = Arrays.copyOf(hashBytes, 16);
+		byte[] leftHalf = Arrays.copyOf(hashBytes, hashBytes.length / 2);
 		return Base64.getUrlEncoder().withoutPadding().encodeToString(leftHalf);
 	}
 }
