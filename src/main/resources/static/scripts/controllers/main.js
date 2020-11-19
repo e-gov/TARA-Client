@@ -18,6 +18,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $q, $window) {
         if (document.getElementById('eidasonly').checked) selectedScopes.push('eidasonly');
         if (document.getElementById('email').checked) selectedScopes.push('email');
         if (document.getElementById('phone').checked) selectedScopes.push('phone');
+        if (document.getElementById('legalperson').checked) selectedScopes.push('legalperson');
 
         parameters.push('scope=' + selectedScopes.join(' '));
 
