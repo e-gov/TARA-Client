@@ -1,4 +1,5 @@
-FROM maven:3.6.3-jdk-8-slim as builder
+ARG DOCKERHUB_MIRROR=
+FROM ${DOCKERHUB_MIRROR}library/maven:3.6.3-jdk-8-slim as builder
 WORKDIR application
 COPY . .
 RUN mvn -s settings.xml clean package
