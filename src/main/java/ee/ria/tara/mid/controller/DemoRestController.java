@@ -129,6 +129,7 @@ class DemoRestController {
         try {
             return JSON.readValue(connection.getInputStream(), TokenEndpointResponse.class);
         } catch (IOException e) {
+            logger.info("Error reading token response: " + e);
             if (connection.getHeaderField("Content-Type").contains("application/json")) {
                 return JSON.readValue(connection.getErrorStream(), TokenEndpointErrorResponse.class);
             }
