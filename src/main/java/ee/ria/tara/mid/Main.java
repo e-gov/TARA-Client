@@ -1,11 +1,7 @@
 package ee.ria.tara.mid;
 
-import java.security.SecureRandom;
-
-import javax.net.ssl.KeyManager;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-
+import ee.ria.tara.mid.utils.Properties;
+import ee.ria.tara.mid.utils.TlsSupport;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
@@ -23,8 +19,10 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
-import ee.ria.tara.mid.utils.Properties;
-import ee.ria.tara.mid.utils.TlsSupport;
+import javax.net.ssl.KeyManager;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import java.security.SecureRandom;
 
 public final class Main {
 

@@ -1,8 +1,8 @@
 package ee.ria.tara.mid.utils;
 
+import javax.net.ssl.X509TrustManager;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import javax.net.ssl.X509TrustManager;
 
 public class TrustAllManager implements X509TrustManager {
     @Override

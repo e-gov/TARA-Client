@@ -1,18 +1,17 @@
 package ee.ria.tara.mid.utils;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
+import org.apache.commons.codec.digest.DigestUtils;
 
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Base64;
 
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-
-import org.apache.commons.codec.digest.DigestUtils;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 public final class Utils {
 	private Utils() {

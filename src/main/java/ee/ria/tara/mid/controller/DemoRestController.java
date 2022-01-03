@@ -1,8 +1,30 @@
 package ee.ria.tara.mid.controller;
 
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nimbusds.jose.JOSEException;
+import com.nimbusds.jose.JWSVerifier;
+import com.nimbusds.jose.crypto.RSASSAVerifier;
+import com.nimbusds.jwt.JWTClaimsSet;
+import com.nimbusds.jwt.SignedJWT;
+import ee.ria.tara.mid.EndpointDiscovery;
+import ee.ria.tara.mid.controller.response.TokenEndpointErrorResponse;
+import ee.ria.tara.mid.controller.response.TokenEndpointResponse;
+import ee.ria.tara.mid.controller.response.TokenResponse;
+import ee.ria.tara.mid.utils.Properties;
+import ee.ria.tara.mid.utils.Utils;
+import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,32 +37,7 @@ import java.util.Date;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.io.IOUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nimbusds.jose.JOSEException;
-import com.nimbusds.jose.JWSVerifier;
-import com.nimbusds.jose.crypto.RSASSAVerifier;
-import com.nimbusds.jwt.JWTClaimsSet;
-import com.nimbusds.jwt.SignedJWT;
-
-import ee.ria.tara.mid.EndpointDiscovery;
-import ee.ria.tara.mid.controller.response.TokenEndpointErrorResponse;
-import ee.ria.tara.mid.controller.response.TokenEndpointResponse;
-import ee.ria.tara.mid.controller.response.TokenResponse;
-import ee.ria.tara.mid.utils.Properties;
-import ee.ria.tara.mid.utils.Utils;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 
 @RestController

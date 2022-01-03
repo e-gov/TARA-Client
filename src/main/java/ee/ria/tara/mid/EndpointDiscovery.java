@@ -1,20 +1,19 @@
 package ee.ria.tara.mid;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.security.interfaces.RSAPublicKey;
-import java.util.logging.Logger;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
+import ee.ria.tara.mid.controller.response.EndpointDiscoveryResponse;
+import ee.ria.tara.mid.utils.Properties;
+import ee.ria.tara.mid.utils.Utils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 
-import ee.ria.tara.mid.utils.Properties;
-import ee.ria.tara.mid.utils.Utils;
-import ee.ria.tara.mid.controller.response.EndpointDiscoveryResponse;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.security.interfaces.RSAPublicKey;
+import java.util.logging.Logger;
 
 public class EndpointDiscovery {
 
