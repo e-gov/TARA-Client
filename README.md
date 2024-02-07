@@ -1,6 +1,9 @@
 <img src='doc/img/ee_cef_0.png'></img>
 
-# TARA-Client
+# [DEPRECATED] TARA-Client
+
+> [!CAUTION]
+> **Tarkvara ei ajakohastata. Uuem info asub https://e-gov.github.io/TARA-Doku/Naited lehel.**
 
 TARA autentimisteenuse näidis klient
 
